@@ -9,6 +9,11 @@ locals {
     ])
 }
 
+#Just for uuid testing:
+
+resource "random_uuid" "uuidtest" {
+}
+
 # just for logic testing for loops
 output "alarms" {
   value = { for alarms in local.alarms : "${alarms.metric}-${alarms.instanceid}" => alarms }
@@ -23,7 +28,11 @@ output "alarmstest" {
 resource "aws_cloudwatch_metric_alarm" "ec2alarms" {
   #for_each = { for metrics in var.metric : metrics => metrics }  # COnditional testing 
   for_each = { for alarms in local.alarms : "${alarms.metric}-${alarms.instanceid}" => alarms }
-  #for_each = { for alarms in local.alarms : "${alarms.instanceid}" => alarms } #duplicate object key error
+
+  #for_each = { for alarms in local.alarms : "${alarms.instanceid}-${random_uuid.uuidtest.result}" => alarms } #duplicate object key error not removed after using uuid resource
+
+  #for_each = { for alarms in local.alarms : "${alarms.instanceid}" => alarms } #duplicate object key error if using one metric
+
   alarm_name = format("High-EC2-Utilization-Alarm-for-%s-monitoring-and-instance-is-%s", each.value.metric, each.value.instanceid)
   evaluation_periods = 1
   datapoints_to_alarm = 1
