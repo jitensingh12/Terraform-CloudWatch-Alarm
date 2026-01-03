@@ -10,6 +10,11 @@ locals {
     ])
 }
 
+output "test" {
+  value = local.alarms
+  
+}
+
 resource "aws_cloudwatch_metric_alarm" "ec2alarms" {
   #for_each = { for metrics in var.metric : metrics => metrics }
   for_each = { for alarms in local.alarms : "${alarms.metric}-${alarms.instanceid}" => alarms }

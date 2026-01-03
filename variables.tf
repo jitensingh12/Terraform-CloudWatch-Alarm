@@ -10,6 +10,6 @@ variable "InsId" {
 }
 
 variable "alarms" {
-    type = map(string)
-    default = {}
+   type = map(string)
+   default = {}
 }
