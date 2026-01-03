@@ -5,8 +5,7 @@ variable metric_name {
 
 variable "InsId" {
     type = list(string)
-    default = ["i-0307cd4b4265c1aa0", "i-03d501112b3d30c7b"]
-  
+    default = ["i-0307cd4b4265c", "i-03d50111d30c7b"]
 }
 
 variable "alarms" {
