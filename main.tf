@@ -9,8 +9,7 @@ locals {
     ])
 }
 
-#Just for uuid testing:
-
+# Just for uuid testing:
 resource "random_uuid" "uuidtest" {
 }
 
