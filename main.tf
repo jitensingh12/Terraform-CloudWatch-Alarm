@@ -1,4 +1,3 @@
-
 locals {
     alarms = flatten ([
       for metric in var.metric_name : [
@@ -20,7 +19,6 @@ output "alarmstest" {
   value = { for metrics in var.metric_name : metrics => metrics }
   
 }
-
 
 resource "aws_cloudwatch_metric_alarm" "ec2alarms" {
   #for_each = { for metrics in var.metric : metrics => metrics }  # COnditional testing 
