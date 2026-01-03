@@ -10,14 +10,22 @@ locals {
     ])
 }
 
-output "test" {
-  value = local.alarms
+# just for logic testing for loops
+output "alarms" {
+  value = { for alarms in local.alarms : "${alarms.metric}-${alarms.instanceid}" => alarms }
+  
+}
+# just for logic testing for loops
+output "alarmstest" {
+  value = { for metrics in var.metric_name : metrics => metrics }
   
 }
 
+
 resource "aws_cloudwatch_metric_alarm" "ec2alarms" {
-  #for_each = { for metrics in var.metric : metrics => metrics }
+  #for_each = { for metrics in var.metric : metrics => metrics }  # COnditional testing 
   for_each = { for alarms in local.alarms : "${alarms.metric}-${alarms.instanceid}" => alarms }
+  #for_each = { for alarms in local.alarms : "${alarms.instanceid}" => alarms } #duplicate object key error
   alarm_name = format("High-EC2-Utilization-Alarm-for-%s-monitoring-and-instance-is-%s", each.value.metric, each.value.instanceid)
   evaluation_periods = 1
   datapoints_to_alarm = 1
